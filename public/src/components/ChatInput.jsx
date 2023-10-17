@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
-import { FcViewDetails } from "react-icons/fc";
-import { FcServiceMark } from "react-icons/fc";
-import { FcSurvey } from "react-icons/fc";
+import { FaPencilAlt } from 'react-icons/fa';
+import { FaBook } from "react-icons/fa";
+import { FaExpandArrowsAlt } from "react-icons/fa";
 import { CiText} from "react-icons/ci";
 import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
+import { FaSyncAlt, FaTimes } from 'react-icons/fa';
+
+
 
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
@@ -30,9 +33,13 @@ export default function ChatInput({ handleSendMsg }) {
   };
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState({});
-  const toggleModal = (title) => {
-    
-    if(!modal)
+
+  const toggleModal = () => {
+    setModal(false);
+  }
+  const textProcessing = (title) => {
+
+    if(true)
     {
       let systemcontent=msg;
       switch (title) {
@@ -102,7 +109,7 @@ export default function ChatInput({ handleSendMsg }) {
           });
         });
     }
-    setModal(!modal);
+    setModal(true);
   };
 
   if(modal) {
@@ -119,16 +126,16 @@ export default function ChatInput({ handleSendMsg }) {
           {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
         </div>
         <div className="emoji">
-          <FcViewDetails onClick={() => toggleModal("REPHRASE")}/>
+          <FaPencilAlt onClick={() => textProcessing("REPHRASE")}/>
         </div>
         <div className="emoji">
-          <CiText onClick={() => toggleModal("TRANSLATE")} />
+          <CiText onClick={() => textProcessing("TRANSLATE")} />
         </div>
         <div className="emoji">
-        <FcServiceMark onClick={() => toggleModal("SUMMARY")} />
+        <FaBook onClick={() => textProcessing("SUMMARY")} />
         </div>
         <div className="emoji">
-          <FcSurvey onClick={() => toggleModal("EXPAND")}/>
+          <FaExpandArrowsAlt onClick={() => textProcessing("EXPAND")}/>
         </div>
       </div>
       <div style={{"padding-left":"150px"}}>
@@ -146,14 +153,16 @@ export default function ChatInput({ handleSendMsg }) {
       </div>
       {modal && (
         <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
           <div className="modal-content">
+            <button className="refresh-modal" onClick={() => textProcessing(modalData.title)}>
+              <FaSyncAlt /> {/* React Icons "Refresh" icon */}
+            </button>
             <h2>{modalData.title}</h2>
             <p>
               {modalData.content}
             </p>
             <button className="close-modal" onClick={toggleModal}>
-              CLOSE
+              <FaTimes /> {/* React Icons "Close" icon */}
             </button>
           </div>
         </div>
